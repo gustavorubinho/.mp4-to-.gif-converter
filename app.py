@@ -185,5 +185,6 @@ def baixar_gif(nome_arquivo):
 
 
 if __name__ == '__main__':
-    print("🚀 Servidor rodando em: http://127.0.0.1:5000")
-    app.run(debug=True, port=5000)
+    porta = int(os.environ.get('PORT', 5000))
+    print(f"🚀 Servidor rodando em: http://127.0.0.1:{porta}")
+    app.run(host='0.0.0.0', port=porta, debug=True)

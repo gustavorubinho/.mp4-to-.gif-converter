@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>.MP4 to .GIF Converter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>MP4 to GIF Converter</h1>
+            <p>Turn your videos into high-quality, lightweight animated GIFs.</p>
+        </header>
+
+        <main class="card">
+            <div class="drop-zone" id="drop-zone">
+                <div class="drop-zone-icon">📁</div>
+                <h3>drop your video here</h3>
+                <p>or click to browse from your computer</p>
+                <span class="file-format-badge">Supports .mp4</span>
+                <input type="file" id="video-input" accept="video/mp4,video/*" hidden>
+            </div>
+
+            <div class="selected-file-box hidden" id="selected-file-box">
+                <span class="file-name" id="file-name">video.mp4</span>
+                <button type="button" class="btn-remove" id="btn-remove" title="Remove video">✖</button>
+            </div>
+
+            <div class="duration-section">
+                <div class="duration-header">
+                    <label for="duration-slider">GIF Duration:</label>
+                    <span class="duration-badge" id="duration-badge">5.0s</span>
+                </div>
+                <input 
+                    type="range" 
+                    id="duration-slider" 
+                    min="2" 
+                    max="8" 
+                    step="0.5" 
+                    value="5"
+                    class="slider"
+                >
+                <div class="slider-labels">
+                    <span>2s (lighter)</span>
+                    <span>5s</span>
+                    <span>8s (max)</span>
+                </div>
+            </div>
+
+            <button type="button" class="btn-convert" id="btn-convert" disabled>
+                Convert to GIF
+            </button>
+
+            <div class="loading-box hidden" id="loading-box">
+                <div class="spinner"></div>
+                <p>Processing frames and generating GIF... Please wait.</p>
+            </div>
+
+            <div class="error-box hidden" id="error-box">
+                <p id="error-message"></p>
+            </div>
+
+            <div class="result-box hidden" id="result-box">
+                <h3>🎉 Your GIF is ready!</h3>
+                <div class="gif-preview-wrapper">
+                    <img id="gif-preview" src="" alt="Generated GIF">
+                </div>
+                <div class="result-actions">
+                    <a id="btn-download" href="#" download class="btn-download">
+                        ⬇ Download GIF
+                    </a>
+                    <button type="button" class="btn-new" id="btn-new">
+                        Convert another video
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

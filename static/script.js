@@ -1,4 +1,39 @@
 // ===================================================
+// CONTROLE DE TEMA (CLARO / ESCURO)
+// ===================================================
+const themeToggle = document.getElementById('theme-toggle');
+const themeIconSun = document.getElementById('theme-icon-sun');
+const themeIconMoon = document.getElementById('theme-icon-moon');
+
+function applyTheme(isLight) {
+    if (isLight) {
+        document.body.classList.add('light-theme');
+        if (themeIconSun) themeIconSun.classList.add('hidden');
+        if (themeIconMoon) themeIconMoon.classList.remove('hidden');
+        localStorage.setItem('theme', 'light');
+    } else {
+        document.body.classList.remove('light-theme');
+        if (themeIconSun) themeIconSun.classList.remove('hidden');
+        if (themeIconMoon) themeIconMoon.classList.add('hidden');
+        localStorage.setItem('theme', 'dark');
+    }
+}
+
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'light') {
+    applyTheme(true);
+} else {
+    applyTheme(false);
+}
+
+if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+        const isCurrentlyLight = document.body.classList.contains('light-theme');
+        applyTheme(!isCurrentlyLight);
+    });
+}
+
+// ===================================================
 // SELEÇÃO DOS ELEMENTOS DO HTML
 // ===================================================
 const dropZone = document.getElementById('drop-zone');

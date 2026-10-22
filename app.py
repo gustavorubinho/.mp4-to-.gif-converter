@@ -25,10 +25,6 @@ def add_header(response):
 
 
 def cortar_por_coordenadas(img, crop_x, crop_y, crop_w, crop_h):
-    """
-    Corta a imagem baseando-se nas coordenadas normalizadas (0.0 a 1.0)
-    escolhidas interativamente pelo usuário no vídeo.
-    """
     if crop_x is None or crop_w is None or crop_w <= 0 or crop_h <= 0:
         return img
 
@@ -47,7 +43,6 @@ def cortar_por_coordenadas(img, crop_x, crop_y, crop_w, crop_h):
 def video_para_gif(caminho_video, caminho_gif, inicio_segundos=0.0, duracao_segundos=5.0, 
                    crop_coords=None, fps=12, largura_max=480):
     """
-    Lê o vídeo MP4, corta no tempo e nas coordenadas exatas da moldura interativa.
     """
     leitor = imageio.get_reader(caminho_video)
     meta = leitor.get_meta_data()
@@ -70,7 +65,6 @@ def video_para_gif(caminho_video, caminho_gif, inicio_segundos=0.0, duracao_segu
             if (indice - frame_inicio) % passo == 0:
                 img = Image.fromarray(frame)
 
-                # 1. Aplica o corte interativo de posição escolhido pelo usuário
                 if crop_coords:
                     img = cortar_por_coordenadas(
                         img, 
@@ -80,13 +74,11 @@ def video_para_gif(caminho_video, caminho_gif, inicio_segundos=0.0, duracao_segu
                         crop_coords.get('h')
                     )
 
-                # 2. Redimensiona para manter o arquivo leve
                 if img.width > largura_max:
                     proporcao = largura_max / float(img.width)
                     nova_altura = int(float(img.height) * proporcao)
                     img = img.resize((largura_max, nova_altura), Image.Resampling.LANCZOS)
 
-                # 3. Paleta adaptativa com dither para máxima fidelidade
                 img = img.convert('P', palette=Image.Palette.ADAPTIVE, colors=256)
                 frames_processados.append(img)
     finally:
@@ -132,7 +124,6 @@ def converter():
     except ValueError:
         duracao = 5.0
 
-    # Coordenadas interativas do enquadramento (Crop)
     crop_coords = None
     try:
         if 'crop_x' in request.form and 'crop_w' in request.form:
@@ -186,5 +177,5 @@ def baixar_gif(nome_arquivo):
 
 if __name__ == '__main__':
     porta = int(os.environ.get('PORT', 5000))
-    print(f"🚀 Servidor rodando em: http://127.0.0.1:{porta}")
+    print(f"Servidor rodando em: http://127.0.0.1:{porta}")
     app.run(host='0.0.0.0', port=porta, debug=True)
